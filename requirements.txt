@@ -4,3 +4,5 @@ ta-lib
 numpy
 openai
 asyncio
+pycoingecko
+yfinance
