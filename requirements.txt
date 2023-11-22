@@ -1,0 +1,6 @@
+ccxt
+pandas
+ta-lib
+numpy
+openai
+asyncio
