@@ -1,0 +1,37 @@
+import talib
+import numpy as np
+
+def list_indicators():
+    """
+    List all available TA-Lib indicators.
+    """
+    return talib.get_functions()
+
+def apply_indicator(indicator_name, data):
+    """
+    Apply a selected TA-Lib indicator with its default parameters.
+
+    :param indicator_name: Name of the indicator.
+    :param data: Price data (OHLCV) as a Pandas DataFrame.
+    :return: Indicator values.
+    """
+    if indicator_name not in talib.get_functions():
+        return f"Indicator {indicator_name} not found."
+
+    # Retrieve the function from the TA-Lib module
+    indicator_func = getattr(talib.abstract, indicator_name)
+
+    # Applying the indicator with default parameters
+    try:
+        # Assuming 'data' is a Pandas DataFrame with OHLCV columns
+        return indicator_func(data)
+    except Exception as e:
+        return f"Error applying indicator: {str(e)}"
+
+# Example Usage
+indicators = list_indicators()
+print("Available indicators:", indicators)
+
+# Example to apply an indicator (replace 'data' with actual OHLCV DataFrame)
+# result = apply_indicator('SMA', data)
+# print(result)
