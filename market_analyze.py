@@ -11,13 +11,13 @@ load_dotenv()
 openai_api_key = os.getenv('OPENAI_API_KEY')
 openai.api_key = openai_api_key
 
-def analyze_crypto(symbol, timeframe, exchange_id='binance'):
+def market_analyze(exchange_id, symbol, timeframe):
     """
     Fetch OHLCV data, perform technical analysis, and use OpenAI for further analysis.
 
+    :param exchange_id: The ID of the exchange (e.g., 'binance').
     :param symbol: The trading symbol (e.g., 'BTC/USDT').
     :param timeframe: The timeframe for OHLCV data (e.g., '1d', '5m').
-    :param exchange_id: The ID of the exchange (default 'binance').
     :return: Analysis results from OpenAI.
     """
     exchange_class = getattr(ccxt, exchange_id)
@@ -47,6 +47,10 @@ def analyze_crypto(symbol, timeframe, exchange_id='binance'):
 
     return response.choices[0].text.strip()
 
-# Example usage
-# result = analyze_crypto('BTC/USDT', '1d')
-# print(result)
+# Dynamic example usage
+if __name__ == "__main__":
+    exchange_id = input("Enter the exchange ID (e.g., 'binance'): ")
+    symbol = input("Enter the symbol (e.g., 'BTC/USDT'): ")
+    timeframe = input("Enter the timeframe (e.g., '1d', '5m'): ")
+    result = market_analyze(exchange_id, symbol, timeframe)
+    print(result)
