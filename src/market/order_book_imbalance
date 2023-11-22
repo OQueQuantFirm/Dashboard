@@ -1,0 +1,35 @@
+import ccxt
+
+def order_book_imbalance(exchange_id, symbol):
+    """
+    Fetch the order book for a given exchange and symbol, and calculate the imbalance.
+
+    :param exchange_id: The ID of the exchange (e.g., 'binance').
+    :param symbol: The trading symbol (e.g., 'BTC/USDT').
+    :return: The imbalance in the order book.
+    """
+    exchange_class = getattr(ccxt, exchange_id)
+    exchange = exchange_class({'enableRateLimit': True})
+
+    try:
+        order_book = exchange.fetch_order_book(symbol)
+        bids = order_book['bids']
+        asks = order_book['asks']
+
+        # Calculate total volumes for bids and asks
+        total_bid_volume = sum([amount for price, amount in bids])
+        total_ask_volume = sum([amount for price, amount in asks])
+
+        # Calculate imbalance
+        imbalance = total_bid_volume - total_ask_volume
+
+        return imbalance
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return None
+
+# Example usage
+# exchange_id = 'binance'
+# symbol = 'BTC/USDT'
+# imbalance = order_book_imbalance(exchange_id, symbol)
+# print("Imbalance:", imbalance)
