@@ -3,7 +3,6 @@ import openai
 import os
 from dotenv import load_dotenv
 
-# Adjust the import paths based on the directory structure
 from src.market.order_book_depth import order_book_depth
 from src.market.order_book_imbalance import order_book_imbalance
 
