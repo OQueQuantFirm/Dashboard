@@ -1,0 +1,31 @@
+import asyncio
+import ccxt
+import datetime
+
+async def fetch_order_book(exchange_id, symbol):
+    """
+    Fetch and print the order book for a given exchange and symbol.
+
+    :param exchange_id: The ID of the exchange (e.g., 'binance').
+    :param symbol: The symbol to fetch the order book for (e.g., 'BTC/USDT').
+    """
+    exchange_class = getattr(ccxt, exchange_id)
+    exchange = exchange_class({'enableRateLimit': True})
+
+    while True:
+        try:
+            order_book = exchange.fetch_order_book(symbol)
+            current_time = datetime.datetime.now()
+
+            print(f"Time: {current_time}")
+            print(f"Order Book for {symbol} on {exchange_id}:")
+            print(order_book)
+
+            await asyncio.sleep(60)  # Sleep for 60 seconds
+
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+            break  # or use 'continue' to keep the loop running even if an error occurs
+
+# Example usage
+# asyncio.run(fetch_order_book('binance', 'BTC/USDT'))
